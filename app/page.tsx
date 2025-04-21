@@ -9,9 +9,15 @@ export default function Home() {
   const cleanText = () => {
     if (!inputText.trim()) return;
     
-    // Regex para eliminar números que aparecen después de un punto
-    // Busca un punto seguido de uno o más dígitos y lo reemplaza solo por el punto
-    const cleanedText = inputText.replace(/\.(\d+)/g, '.');
+    // Paso 1: Eliminar números que aparecen después de un punto
+    let cleanedText = inputText.replace(/\.(\d+)/g, '.');
+    
+    // Paso 2: Eliminar caracteres especiales: #, ##, *, **
+    cleanedText = cleanedText.replace(/[#*]+/g, '');
+    
+    // Paso 3: Eliminar referencias e hipervínculos encerrados en ([ ])
+    // Busca patrones como ([texto](url)) y los elimina
+    cleanedText = cleanedText.replace(/\(\[.*?\]\(.*?\)\)/g, '');
     
     setOutputText(cleanedText);
   };
